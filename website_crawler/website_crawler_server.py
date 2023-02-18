@@ -3,6 +3,7 @@ import website_crawler_pb2
 import website_crawler_pb2_grpc
 import requests
 from bs4 import BeautifulSoup
+import concurrent.futures
 
 
 class WebsiteCrawlerServicer(website_crawler_pb2_grpc.WebsiteCrawlerServiceServicer):
@@ -23,7 +24,8 @@ class WebsiteCrawlerServicer(website_crawler_pb2_grpc.WebsiteCrawlerServiceServi
 
 
 def serve():
-    server = grpc.server(grpc.ThreadPoolExecutor(max_workers=10))
+    pool = concurrent.futures.ThreadPoolExecutor(max_workers=10)
+    server = grpc.server(pool)
     website_crawler_pb2_grpc.add_WebsiteCrawlerServiceServicer_to_server(
         WebsiteCrawlerServicer(), server)
     server.add_insecure_port('[::]:50051')
