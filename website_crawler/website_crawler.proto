@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package website_crawler;
+
+message WebsiteCrawlerRequest {
+  string website_url = 1;
+}
+
+message WebsiteCrawlerResponse {
+  repeated string urls = 1;
+}
+
+service WebsiteCrawlerService {
+  rpc CrawlWebsite (WebsiteCrawlerRequest) returns (WebsiteCrawlerResponse) {}
+}
